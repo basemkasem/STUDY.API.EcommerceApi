@@ -1,12 +1,14 @@
+using Ecommerce.Core.Interfaces.Common;
+
 namespace Ecommerce.Core.Models;
 
-public class Category
+public class Category : ISoftDeletable
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public ICollection<Product>? Products { get; set; }
     
-    public bool IsDeleted { get; set; } = false;
-    public DateTime? DeletedAt { get; set; } = null;
+    public bool IsDeleted { get; set; }
+    public DateTime? DeletedAt { get; set; }
 }

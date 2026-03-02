@@ -1,6 +1,8 @@
+using Ecommerce.Core.Interfaces.Common;
+
 namespace Ecommerce.Core.Models;
 
-public class Product
+public class Product : ISoftDeletable
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;

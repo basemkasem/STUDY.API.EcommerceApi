@@ -1,3 +1,4 @@
+using Ecommerce.Core.Interfaces.Common;
 using Ecommerce.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,8 +29,10 @@ public class GenericRepository<T>(AppDbContext context) : IGenericRepository<T>
         _context.Update(entity);
     }
 
-    public void Delete(T entity)
+    public void Delete(ISoftDeletable entity)
     {
-        _context.Remove(entity);
+        entity.IsDeleted = true;
+        entity.DeletedAt = DateTime.UtcNow;
+        _context.Update(entity);
     }
 }

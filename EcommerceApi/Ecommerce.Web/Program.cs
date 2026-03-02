@@ -1,16 +1,20 @@
 using Ecommerce.Core.Interfaces.Repositories;
+using Ecommerce.Core.Interfaces.Services;
 using Ecommerce.Data;
 using Ecommerce.Data.Repositories;
+using Ecommerce.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
         );
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddControllers();
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
