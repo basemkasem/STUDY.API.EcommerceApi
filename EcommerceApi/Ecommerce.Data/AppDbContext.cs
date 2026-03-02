@@ -20,19 +20,24 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     {
         modelBuilder
-            .Entity<SaleItem>()
-            .HasKey(si => new { si.SaleId, si.ProductId });
-        
-        modelBuilder
             .Entity<Product>()
+            .HasQueryFilter(p => !p.IsDeleted)
             .Property(p => p.Price)
             .HasPrecision(18, 2);
-        
+
         modelBuilder
             .Entity<Sale>()
+            .HasQueryFilter(p => !p.IsDeleted)
             .Property(s => s.TotalPrice)
             .HasPrecision(18, 2);
-        
+
+        modelBuilder.Entity<Category>()
+            .HasQueryFilter(p => !p.IsDeleted);
+
+        modelBuilder
+            .Entity<SaleItem>()
+            .HasKey(si => new { si.SaleId, si.ProductId });
+
         modelBuilder
             .Entity<SaleItem>()
             .Property(si => si.UnitPriceAtTimeOfSale)
