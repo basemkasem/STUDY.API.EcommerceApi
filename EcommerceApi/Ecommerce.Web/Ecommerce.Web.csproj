@@ -17,10 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Ecommerce.Core\Ecommerce.Core.csproj" />
       <ProjectReference Include="..\Ecommerce.Data\Ecommerce.Data.csproj" />
       <ProjectReference Include="..\Ecommerce.Services\Ecommerce.Services.csproj" />
