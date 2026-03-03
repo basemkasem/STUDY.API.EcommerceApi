@@ -69,12 +69,8 @@ public class CategoryService(IUnitOfWork unitOfWork) : ICategoryService
             return Result<CategoryDto>.Fail($"Category with Id {id} was not found");
         categoryFromDb.Name = category.Name;
         categoryFromDb.Description = category.Description;
-        _unitOfWork.Categories.Update(categoryFromDb);
-        var rowsAffected = await _unitOfWork.CompleteAsync();
-        if (rowsAffected == 0)
-        {
-            return Result<CategoryDto>.Fail("Failed to update category");
-        }
+
+        await _unitOfWork.CompleteAsync();
         
         return Result<CategoryDto>.Success(new CategoryDto()
         {
