@@ -2,7 +2,7 @@ using Ecommerce.Core.Interfaces.Common;
 
 namespace Ecommerce.Core.Models;
 
-public class Category : ISoftDeletable
+public class Category : IBaseEntity, ISoftDeletable
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
