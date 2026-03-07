@@ -64,7 +64,7 @@ public class ProductService(IUnitOfWork unitOfWork) : IProductService
 
     public async Task<Result<IEnumerable<ProductDto>>> GetAllProductsAsync(PaginationParams paginationParams)
     {
-        var products = await _unitOfWork.Products.GetAllAsync(paginationParams);
+        var products = await _unitOfWork.Products.GetAllAsync(paginationParams, p => p.Category);
         return Result<IEnumerable<ProductDto>>.Success(products.Select(p => new ProductDto()
         {
             Id = p.Id,

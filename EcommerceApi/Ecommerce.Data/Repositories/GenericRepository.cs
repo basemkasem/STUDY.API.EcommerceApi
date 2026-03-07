@@ -22,7 +22,7 @@ public class GenericRepository<T>(AppDbContext context) : IGenericRepository<T>
         return await query.ToListAsync();
     }
 
-    public Task<List<T>> GetAllAsync(PaginationParams paginationParams, params Expression<Func<T, object?>>[] includeProperties)
+    public async Task<List<T>> GetAllAsync(PaginationParams paginationParams, params Expression<Func<T, object?>>[] includeProperties)
     {
         var query = _context.Set<T>().AsQueryable();
         if (includeProperties.Length > 0)
@@ -30,7 +30,7 @@ public class GenericRepository<T>(AppDbContext context) : IGenericRepository<T>
              foreach (var includeProperty in includeProperties)
                  query = query.Include(includeProperty);
         }
-        return query.Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
+        return await query.Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
             .Take(paginationParams.PageSize)
             .ToListAsync();
     }
