@@ -2,7 +2,7 @@ using Ecommerce.Core.Interfaces.Common;
 
 namespace Ecommerce.Core.Models;
 
-public class Sale : ISoftDeletable
+public class Sale : IBaseEntity, ISoftDeletable
 {
     public int Id { get; set; }
     public DateTime CreationDate { get; set; }

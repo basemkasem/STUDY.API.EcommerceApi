@@ -2,7 +2,7 @@ using Ecommerce.Core.Interfaces.Common;
 
 namespace Ecommerce.Core.Models;
 
-public class Product : ISoftDeletable
+public class Product : IBaseEntity, ISoftDeletable
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
@@ -11,7 +11,7 @@ public class Product : ISoftDeletable
     public string? ImageUrl { get; set; }
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
-    
+
     public bool IsDeleted { get; set; }
     public DateTime? DeletedAt { get; set; }
 }
