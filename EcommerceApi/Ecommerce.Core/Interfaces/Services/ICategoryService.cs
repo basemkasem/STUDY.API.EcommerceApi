@@ -1,6 +1,5 @@
-using Ecommerce.Core.DTOs;
 using Ecommerce.Core.DTOs.Category;
-using Ecommerce.Core.Models;
+using Ecommerce.Core.Utilities;
 
 namespace Ecommerce.Core.Interfaces.Services;
 

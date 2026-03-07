@@ -1,4 +1,4 @@
-namespace Ecommerce.Core.DTOs;
+namespace Ecommerce.Core.Utilities;
 
 public class Result<T>
 {
