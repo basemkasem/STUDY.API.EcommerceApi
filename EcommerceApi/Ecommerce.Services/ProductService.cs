@@ -34,6 +34,8 @@ public class ProductService(IUnitOfWork unitOfWork) : IProductService
         {
             Id = newProduct.Id,
             Name = newProduct.Name,
+            ImageUrl = newProduct.ImageUrl,
+            Quantity = newProduct.Quantity,
             Description = newProduct.Description,
             Price = newProduct.Price,
             CategoryId = newProduct.CategoryId,
@@ -54,6 +56,8 @@ public class ProductService(IUnitOfWork unitOfWork) : IProductService
         {
             Id = product.Id,
             Name = product.Name,
+            ImageUrl = product.ImageUrl,
+            Quantity = product.Quantity,
             Description = product.Description,
             Price = product.Price,
             CategoryId = product.CategoryId,
@@ -69,6 +73,8 @@ public class ProductService(IUnitOfWork unitOfWork) : IProductService
         {
             Id = p.Id,
             Name = p.Name,
+            ImageUrl = p.ImageUrl,
+            Quantity = p.Quantity,
             Description = p.Description,
             Price = p.Price,
             CategoryId = p.CategoryId,
@@ -98,6 +104,8 @@ public class ProductService(IUnitOfWork unitOfWork) : IProductService
         {
             Id = productFromDb.Id,
             Name = productFromDb.Name,
+            ImageUrl = productFromDb.ImageUrl,
+            Quantity = productFromDb.Quantity,
             Description = productFromDb.Description,
             Price = productFromDb.Price,
             CategoryId = productFromDb.CategoryId,
