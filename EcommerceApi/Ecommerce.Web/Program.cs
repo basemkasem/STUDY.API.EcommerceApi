@@ -13,6 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISaleService, SaleService>();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
