@@ -35,6 +35,17 @@ public class GenericRepository<T>(AppDbContext context) : IGenericRepository<T>
             .ToListAsync();
     }
 
+    public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object?>>[] includeProperties)
+    {
+        var query = _context.Set<T>().AsQueryable();
+        if (includeProperties.Length > 0)
+        {
+            foreach (var includeProperty in includeProperties)
+                query = query.Include(includeProperty);
+        }
+        return await query.Where(predicate).ToListAsync();
+    }
+
     public async Task<T?> GetByIdAsync(int id, params Expression<Func<T, object?>>[] includeProperties)
     {
         if (includeProperties.Length == 0) return await _context.Set<T>().FindAsync(id);
