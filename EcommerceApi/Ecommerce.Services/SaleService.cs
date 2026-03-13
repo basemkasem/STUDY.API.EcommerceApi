@@ -9,6 +9,7 @@ namespace Ecommerce.Services;
 public class SaleService(IUnitOfWork unitOfWork) : ISaleService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+
     public async Task<Result<SaleDto>> CreateSaleAsync(CreateSaleDto sale)
     {
         if (sale.Items.Count == 0)
@@ -40,7 +41,7 @@ public class SaleService(IUnitOfWork unitOfWork) : ISaleService
             Items = saleItems,
             TotalPrice = saleItems.Sum(i => i.Quantity * i.UnitPriceAtTimeOfSale)
         };
-        
+
         _unitOfWork.Sales.Add(saleEntity);
 
         var rowsAffected = await _unitOfWork.CompleteAsync();
@@ -65,13 +66,37 @@ public class SaleService(IUnitOfWork unitOfWork) : ISaleService
         return Result<SaleDto>.Success(saleDto);
     }
 
-    public Task<Result<SaleDto>> GetSaleAsync(int id)
+    public async Task<Result<SaleDto>> GetSaleAsync(int id)
     {
-        throw new NotImplementedException();
+        var sale = await _unitOfWork.Sales.GetSaleWithItemsAsync(id);
+        if (sale is null)
+            return Result<SaleDto>.Fail($"Sale with Id {id} was not found");
+        SaleDto dto = new()
+        {
+            CreationDate = sale.CreationDate,
+            Id = sale.Id,
+            Items = sale.Items?.Select(si => new SaleItemDto()
+            {
+                ProductId = si.ProductId,
+                ProductName = si.Product?.Name ?? string.Empty,
+                Quantity = si.Quantity,
+                UnitPrice = si.UnitPriceAtTimeOfSale
+            }).ToList() ?? new List<SaleItemDto>(),
+            TotalPrice = sale.TotalPrice
+        };
+        return Result<SaleDto>.Success(dto);
     }
 
-    public Task<Result<IEnumerable<SaleDto>>> GetAllSalesAsync()
+    public async Task<Result<IEnumerable<SaleDto>>> GetAllSalesAsync(PaginationParams paginationParams)
     {
-        throw new NotImplementedException();
+        var sales = await _unitOfWork.Sales.GetAllAsync(paginationParams);
+        List<SaleDto> salesDto = new();
+        salesDto.AddRange(salesDto.Select(s => new SaleDto()
+        {
+            CreationDate = s.CreationDate,
+            Id = s.Id,
+            TotalPrice = s.TotalPrice,
+        }));
+        return Result<IEnumerable<SaleDto>>.Success(salesDto);
     }
 }
