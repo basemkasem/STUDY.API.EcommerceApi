@@ -90,13 +90,12 @@ public class SaleService(IUnitOfWork unitOfWork) : ISaleService
     public async Task<Result<IEnumerable<SaleDto>>> GetAllSalesAsync(PaginationParams paginationParams)
     {
         var sales = await _unitOfWork.Sales.GetAllAsync(paginationParams);
-        List<SaleDto> salesDto = new();
-        salesDto.AddRange(salesDto.Select(s => new SaleDto()
+        var salesDto = sales.Select(s => new SaleDto()
         {
             CreationDate = s.CreationDate,
             Id = s.Id,
             TotalPrice = s.TotalPrice,
-        }));
+        }).ToList();
         return Result<IEnumerable<SaleDto>>.Success(salesDto);
     }
 }

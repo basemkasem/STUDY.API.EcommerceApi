@@ -11,13 +11,14 @@ namespace Ecommerce.Web.Controllers;
 public class SaleController(ISaleService saleService) : ControllerBase
 {
     private readonly ISaleService _saleService = saleService;
+
     [HttpGet]
-    public async Task<IActionResult> GetAll(PaginationParams paginationParams)
+    public async Task<IActionResult> GetAll([FromQuery] PaginationParams paginationParams)
     {
         var sales = await _saleService.GetAllSalesAsync(paginationParams);
         return Ok(sales.Data);
     }
-    
+
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -29,6 +30,6 @@ public class SaleController(ISaleService saleService) : ControllerBase
     public async Task<IActionResult> Create(CreateSaleDto sale)
     {
         var result = await _saleService.CreateSaleAsync(sale);
-        return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Message);   
+        return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Message);
     }
 }
