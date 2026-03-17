@@ -22,7 +22,7 @@ public class SaleService(IUnitOfWork unitOfWork) : ISaleService
             var product = productsFromDb.FirstOrDefault(p => p.Id == saleItem.ProductId);
             if (product is null)
                 return Result<SaleDto>.Fail($"Product with Id {saleItem.ProductId} was not found");
-            if (product.Quantity < saleItem.Quantity)
+            if (product.Quantity < saleItem.Quantity || product.Quantity == 0)
                 return Result<SaleDto>.Fail($"Insufficient stock for product {product.Name}");
 
             product.Quantity -= saleItem.Quantity;
