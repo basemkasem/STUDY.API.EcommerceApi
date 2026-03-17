@@ -17,13 +17,18 @@ public class ProductService(IUnitOfWork unitOfWork) : IProductService
         {
             return Result<ProductDto>.Fail($"Category with Id {product.CategoryId} was not found");
         }
+        
         Product newProduct = new()
         {
             Name = product.Name,
             Description = product.Description,
+            ImageUrl = product.ImageUrl,
+            Quantity = product.Quantity,
             Price = product.Price,
             CategoryId = product.CategoryId
         };
+        if(newProduct.Quantity <= 0)
+            return Result<ProductDto>.Fail($"Quantity cannot be negative");
         _unitOfWork.Products.Add(newProduct);
         int rowsAffected = await _unitOfWork.CompleteAsync();
         if (rowsAffected == 0)
@@ -91,10 +96,13 @@ public class ProductService(IUnitOfWork unitOfWork) : IProductService
         var productFromDb = await _unitOfWork.Products.GetByIdAsync(id);
         if(productFromDb is null)
             return Result<ProductDto>.Fail($"Product with Id {id} was not found");
+        if(productFromDb.Quantity <= 0)
+            return Result<ProductDto>.Fail($"Quantity cannot be negative");
         
         productFromDb.Name = product.Name;
         productFromDb.Description = product.Description;
         productFromDb.Price = product.Price;
+        productFromDb.Quantity = product.Quantity;
         productFromDb.ImageUrl = product.ImageUrl;
         productFromDb.CategoryId = product.CategoryId;
         
