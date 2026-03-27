@@ -291,16 +291,4 @@ Current validation includes:
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License.
-
-## Contact
-
-For questions or support, please open an issue in the repository.
+This is a study project from [The C# Academy](https://thecsharpacademy.com/). Feel free to fork and experiment!
