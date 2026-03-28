@@ -1,16 +1,17 @@
 using Ecommerce.Core.DTOs.Sale;
 using Ecommerce.Core.Interfaces.Services;
 using Ecommerce.Core.Utilities;
-using Microsoft.AspNetCore.Http.HttpResults;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class SaleController(ISaleService saleService) : ControllerBase
+public class SaleController(ISaleService saleService, IValidator<CreateSaleDto> createValidator) : ControllerBase
 {
     private readonly ISaleService _saleService = saleService;
+    private readonly IValidator<CreateSaleDto> _createValidator = createValidator;
 
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] PaginationParams paginationParams)
@@ -29,6 +30,12 @@ public class SaleController(ISaleService saleService) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateSaleDto sale)
     {
+        var validationResult = await _createValidator.ValidateAsync(sale);
+        if (!validationResult.IsValid)
+        {
+            var errors = validationResult.Errors.Select(x => $"{x.PropertyName} => {x.ErrorMessage}").ToList();
+            return BadRequest(new {Errors = errors});
+        }
         var result = await _saleService.CreateSaleAsync(sale);
         return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Message);
     }
