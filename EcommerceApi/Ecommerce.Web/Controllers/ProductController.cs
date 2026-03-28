@@ -1,15 +1,19 @@
 using Ecommerce.Core.DTOs.Product;
 using Ecommerce.Core.Interfaces.Services;
 using Ecommerce.Core.Utilities;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductController(IProductService productService) : ControllerBase
+public class ProductController(IProductService productService, IValidator<CreateProductDto> createValidator, IValidator<UpdateProductDto> updateValidator) : ControllerBase
 {
     private readonly IProductService _productService = productService;
+    private readonly IValidator<CreateProductDto> _createValidator = createValidator;
+    private readonly IValidator<UpdateProductDto> _updateValidator = updateValidator;
+    
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] PaginationParams paginationParams)
     {
@@ -27,6 +31,13 @@ public class ProductController(IProductService productService) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateProductDto product)
     {
+        var validationResult = await _createValidator.ValidateAsync(product);
+        if (!validationResult.IsValid)
+        {
+            var errors = validationResult.Errors.Select(x => x.ErrorMessage).ToList();
+            return BadRequest(new {Errors = errors});
+        }
+        
         var result = await _productService.CreateProductAsync(product);
         return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Message);
     }
@@ -41,6 +52,12 @@ public class ProductController(IProductService productService) : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, UpdateProductDto product)
     {
+        var validationResult = await _updateValidator.ValidateAsync(product);
+        if (!validationResult.IsValid)
+        {
+            var errors = validationResult.Errors.Select(x => x.ErrorMessage).ToList();
+            return BadRequest(new {Errors = errors});
+        }
         var result = await _productService.UpdateProductAsync(id, product);
         return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Message);
     }
