@@ -18,7 +18,6 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdateProductDtoValidation>();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
