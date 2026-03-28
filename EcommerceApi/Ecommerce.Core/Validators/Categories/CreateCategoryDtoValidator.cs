@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Ecommerce.Core.Validators.Categories;
 
-public class CreateCategoryValidator : AbstractValidator<CreateCategoryDto>
+public class CreateCategoryDtoValidator : AbstractValidator<CreateCategoryDto>
 {
-    public CreateCategoryValidator()
+    public CreateCategoryDtoValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty()
