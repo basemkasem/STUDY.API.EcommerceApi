@@ -96,8 +96,6 @@ public class ProductService(IUnitOfWork unitOfWork) : IProductService
         var productFromDb = await _unitOfWork.Products.GetByIdAsync(id);
         if(productFromDb is null)
             return Result<ProductDto>.Fail($"Product with Id {id} was not found");
-        if(productFromDb.Quantity <= 0)
-            return Result<ProductDto>.Fail($"Quantity cannot be negative");
         
         productFromDb.Name = product.Name;
         productFromDb.Description = product.Description;
