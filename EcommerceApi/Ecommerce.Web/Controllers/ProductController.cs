@@ -34,7 +34,7 @@ public class ProductController(IProductService productService, IValidator<Create
         var validationResult = await _createValidator.ValidateAsync(product);
         if (!validationResult.IsValid)
         {
-            var errors = validationResult.Errors.Select(x => x.ErrorMessage).ToList();
+            var errors = validationResult.Errors.Select(x => $"{x.PropertyName} => {x.ErrorMessage}").ToList();
             return BadRequest(new {Errors = errors});
         }
         
@@ -55,7 +55,7 @@ public class ProductController(IProductService productService, IValidator<Create
         var validationResult = await _updateValidator.ValidateAsync(product);
         if (!validationResult.IsValid)
         {
-            var errors = validationResult.Errors.Select(x => x.ErrorMessage).ToList();
+            var errors = validationResult.Errors.Select(x => $"{x.PropertyName} => {x.ErrorMessage}").ToList();
             return BadRequest(new {Errors = errors});
         }
         var result = await _productService.UpdateProductAsync(id, product);
