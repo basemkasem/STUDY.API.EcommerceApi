@@ -7,12 +7,18 @@ public class GlobalExceptionHandler(IProblemDetailsService problemDetailsService
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        httpContext.Response.StatusCode = exception switch
+        var statusCode = exception switch
         {
             ApplicationException => (int)HttpStatusCode.BadRequest,
             _ => (int)HttpStatusCode.InternalServerError
         };
+        
+        httpContext.Response.StatusCode = statusCode;
         httpContext.Response.ContentType = "application/json";
+        
+        var safeErrorMessage = statusCode == (int)HttpStatusCode.InternalServerError 
+            ? "An unexpected error occurred on the server. Please try again later."
+            : exception.Message;
         
         return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext()
         {
@@ -20,10 +26,10 @@ public class GlobalExceptionHandler(IProblemDetailsService problemDetailsService
             Exception = exception,
             ProblemDetails = new()
             {
-                Status = httpContext.Response.StatusCode,
+                Status = statusCode,
                 Type = exception.GetType().Name,
                 Title = "Internal Server Error",
-                Detail = exception.Message
+                Detail = safeErrorMessage
             }
         });
     }
