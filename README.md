@@ -10,6 +10,8 @@ A RESTful API built with ASP.NET Core for managing an e-commerce system with pro
 - **Soft Delete**: Entities are soft-deleted, allowing data recovery
 - **Pagination**: Efficient data retrieval with pagination support
 - **Result Pattern**: Consistent error handling and response formatting
+- **Exception Handling**: Add global exception handling middleware
+- **Input Validation**: Implement input validation with FluentValidation
 
 ## Architecture
 
@@ -277,15 +279,12 @@ Current validation includes:
 ## Future Enhancements
 
 - [ ] Add authentication & authorization (JWT)
-- [ ] Implement input validation with FluentValidation
-- [ ] Add global exception handling middleware
 - [ ] Implement logging (Serilog)
 - [ ] Add unit and integration tests
 - [ ] Implement caching for frequently accessed data
 - [ ] Add API versioning
 - [ ] Implement rate limiting
 - [ ] Add CORS configuration
-- [ ] Create Update/Delete operations for Sales
 - [ ] Add filtering and sorting capabilities
 - [ ] Implement search functionality
 
