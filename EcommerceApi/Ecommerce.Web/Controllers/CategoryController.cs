@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Ecommerce.Core.DTOs.Category;
 using Ecommerce.Core.Interfaces.Services;
 using FluentValidation;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ecommerce.Web.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v{v:apiVersion}/[controller]")]
 public class CategoryController(ICategoryService categoryService, IValidator<CreateCategoryDto> createValidator, IValidator<UpdateCategoryDto> updateValidator) : ControllerBase
 {
     private readonly ICategoryService _categoryService = categoryService;

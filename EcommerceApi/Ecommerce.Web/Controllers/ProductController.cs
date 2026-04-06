@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Ecommerce.Core.DTOs.Product;
 using Ecommerce.Core.Interfaces.Services;
 using Ecommerce.Core.Utilities;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ecommerce.Web.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v{v:apiVersion}/[controller]")]
 public class ProductController(IProductService productService, IValidator<CreateProductDto> createValidator, IValidator<UpdateProductDto> updateValidator) : ControllerBase
 {
     private readonly IProductService _productService = productService;

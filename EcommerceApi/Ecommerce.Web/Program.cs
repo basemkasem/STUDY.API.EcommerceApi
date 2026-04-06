@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Ecommerce.Core.Interfaces.Repositories;
 using Ecommerce.Core.Interfaces.Services;
 using Ecommerce.Core.Validators.Products;
@@ -19,15 +20,26 @@ builder.Services.AddProblemDetails(configure =>
 });
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-builder.Services.AddDbContext<AppDbContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-        );
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductDtoValidator>();
+
+builder.Services.AddApiVersioning(options =>
+    {
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+        options.ReportApiVersions = true;
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.ApiVersionReader = ApiVersionReader.Combine(
+            new UrlSegmentApiVersionReader(),
+            new HeaderApiVersionReader("X-Api-Version"));
+    })
+    .AddMvc();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
