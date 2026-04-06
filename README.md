@@ -10,8 +10,8 @@ A RESTful API built with ASP.NET Core for managing an e-commerce system with pro
 - **Soft Delete**: Entities are soft-deleted, allowing data recovery
 - **Pagination**: Efficient data retrieval with pagination support
 - **Result Pattern**: Consistent error handling and response formatting
-- **Exception Handling**: Add global exception handling middleware
-- **Input Validation**: Implement input validation with FluentValidation
+- **Global Exception Handling**: Middleware for centralized error handling across all requests
+- **Input Validation**: Request validation using FluentValidation with descriptive error messages
 
 ## Architecture
 
@@ -270,11 +270,13 @@ The API uses a custom `Result<T>` pattern for consistent error responses:
 
 ## Validation
 
-Current validation includes:
-- Category existence validation when creating/updating products
-- Product existence and stock validation when creating sales
-- Quantity validation (must be positive)
-- Stock deduction with availability checks
+Input validation is handled by FluentValidation and covers:
+
+- Required fields (e.g., product name, category name)
+- Positive quantity values
+- Price must be greater than zero
+- Category existence when creating/updating products
+- Product existence and stock availability when creating sales
 
 ## Future Enhancements
 
