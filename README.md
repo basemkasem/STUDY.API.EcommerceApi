@@ -297,7 +297,7 @@ All endpoints are prefixed with `/api/v1/`. When new versions are introduced, ol
 
 ## Future Enhancements
 
-- [ ] Add authentication & authorization (JWT)
+- [ ] Add authentication & authorization (JWT) **(Currently Working On)**
 - [ ] Implement logging (Serilog)
 - [ ] Add unit and integration tests
 - [ ] Implement caching for frequently accessed data
