@@ -12,6 +12,7 @@ A RESTful API built with ASP.NET Core for managing an e-commerce system with pro
 - **Result Pattern**: Consistent error handling and response formatting
 - **Global Exception Handling**: Middleware for centralized error handling across all requests
 - **Input Validation**: Request validation using FluentValidation with descriptive error messages
+- **API Versioning**: URL segment versioning via Asp.Versioning (current version: v1)
 
 ## Architecture
 
@@ -23,7 +24,8 @@ EcommerceApi/
 │   ├── Models/              # Domain entities
 │   ├── DTOs/                # Data Transfer Objects
 │   ├── Interfaces/          # Service and repository contracts
-│   └── Utilities/           # Shared utilities (Result, Pagination)
+│   ├── Utilities/           # Shared utilities (Result, Pagination)
+|   └── Validators/          # FluentValidation validators
 ├── Ecommerce.Data/          # Data access layer
 │   ├── Repositories/        # Repository implementations
 │   ├── Migrations/          # EF Core migrations
@@ -34,6 +36,7 @@ EcommerceApi/
 │   └── SaleService.cs
 └── Ecommerce.Web/           # Presentation layer (API)
     ├── Controllers/         # API controllers
+    ├── Extensions/          # Global Exception handler
     └── Program.cs           # Application entry point
 ```
 
@@ -44,7 +47,9 @@ EcommerceApi/
 - **Entity Framework Core** with SQL Server
 - **Repository Pattern** with Unit of Work
 - **Dependency Injection**
-- **OpenAPI/Swagger** for API documentation
+- **OpenAPI/Postman** for API documentation
+- **FluentValidation** for input validation
+- **Asp.Versioning** for API versioning
 
 ## Getting Started
 
@@ -94,50 +99,50 @@ EcommerceApi/
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/category` | Get all categories |
-| GET | `/api/category/{id}` | Get category by ID |
-| POST | `/api/category` | Create a new category |
-| PUT | `/api/category/{id}` | Update a category |
-| DELETE | `/api/category/{id}` | Delete a category (soft delete) |
+| GET | `/api/v1/category` | Get all categories |
+| GET | `/api/v1/category/{id}` | Get category by ID |
+| POST | `/api/v1/category` | Create a new category |
+| PUT | `/api/v1/category/{id}` | Update a category |
+| DELETE | `/api/v1/category/{id}` | Delete a category (soft delete) |
 
 ### Products
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/product?pageNumber=1&pageSize=10` | Get all products (paginated) |
-| GET | `/api/product/{id}` | Get product by ID |
-| POST | `/api/product` | Create a new product |
-| PUT | `/api/product/{id}` | Update a product |
-| DELETE | `/api/product/{id}` | Delete a product (soft delete) |
+| GET | `/api/v1/product?pageNumber=1&pageSize=10` | Get all products (paginated) |
+| GET | `/api/v1/product/{id}` | Get product by ID |
+| POST | `/api/v1/product` | Create a new product |
+| PUT | `/api/v1/product/{id}` | Update a product |
+| DELETE | `/api/v1/product/{id}` | Delete a product (soft delete) |
 
 ### Sales
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/sale?pageNumber=1&pageSize=10` | Get all sales (paginated) |
-| GET | `/api/sale/{id}` | Get sale by ID with items |
-| POST | `/api/sale` | Create a new sale |
+| GET | `/api/v1/sale?pageNumber=1&pageSize=10` | Get all sales (paginated) |
+| GET | `/api/v1/sale/{id}` | Get sale by ID with items |
+| POST | `/api/v1/sale` | Create a new sale |
 
 ## API Usage Examples
 
 ### Create a Category
-
-```bash
-POST /api/category
+ 
+```http
+POST /api/v1/category
 Content-Type: application/json
-
+ 
 {
   "name": "Electronics",
   "description": "Electronic devices and gadgets"
 }
 ```
-
+ 
 ### Create a Product
-
-```bash
-POST /api/product
+ 
+```http
+POST /api/v1/product
 Content-Type: application/json
-
+ 
 {
   "name": "Laptop",
   "description": "High-performance laptop",
@@ -147,13 +152,13 @@ Content-Type: application/json
   "categoryId": 1
 }
 ```
-
+ 
 ### Create a Sale
-
-```bash
-POST /api/sale
+ 
+```http
+POST /api/v1/sale
 Content-Type: application/json
-
+ 
 {
   "items": [
     {
@@ -178,8 +183,8 @@ Content-Type: application/json
 
 Products and Sales support pagination:
 
-```bash
-GET /api/product?pageNumber=2&pageSize=20
+```http
+GET /api/v1/product?pageNumber=2&pageSize=20
 ```
 
 ## Database Schema
@@ -272,11 +277,23 @@ The API uses a custom `Result<T>` pattern for consistent error responses:
 
 Input validation is handled by FluentValidation and covers:
 
-- Required fields (e.g., product name, category name)
+- Required fields (e.g. product name, category name)
 - Positive quantity values
 - Price must be greater than zero
 - Category existence when creating/updating products
 - Product existence and stock availability when creating sales
+
+## API Versioning
+ 
+This API uses **URL segment versioning** via the `Asp.Versioning` package. The version is embedded directly in the route:
+ 
+```
+/api/v{version}/{resource}
+```
+ 
+**Current version:** `v1`
+ 
+All endpoints are prefixed with `/api/v1/`. When new versions are introduced, older versions remain accessible at their original paths to avoid breaking changes.
 
 ## Future Enhancements
 
@@ -284,7 +301,6 @@ Input validation is handled by FluentValidation and covers:
 - [ ] Implement logging (Serilog)
 - [ ] Add unit and integration tests
 - [ ] Implement caching for frequently accessed data
-- [ ] Add API versioning (Currently Working On)
 - [ ] Implement rate limiting
 - [ ] Add CORS configuration
 - [ ] Add filtering and sorting capabilities
