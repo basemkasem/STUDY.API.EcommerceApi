@@ -85,7 +85,7 @@ EcommerceApi/
    ```
 
 5. **Access the API**
-   - API: `http://localhost:5000` or `https://localhost:5001`
+   - API: `http://localhost:5248`
    - OpenAPI UI: Navigate to `/openapi/v1.json` (in development mode)
 
 ## API Endpoints
@@ -282,7 +282,7 @@ Current validation includes:
 - [ ] Implement logging (Serilog)
 - [ ] Add unit and integration tests
 - [ ] Implement caching for frequently accessed data
-- [ ] Add API versioning
+- [ ] Add API versioning (Currently Working On)
 - [ ] Implement rate limiting
 - [ ] Add CORS configuration
 - [ ] Add filtering and sorting capabilities
