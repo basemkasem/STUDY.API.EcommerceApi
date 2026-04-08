@@ -1,12 +1,12 @@
 namespace Ecommerce.Core.DTOs.Sale;
 
-public class CreateSaleDto
+public record CreateSaleDto
 {
-    public List<CreateSaleItemDto> Items { get; set; } = new();
+    public List<CreateSaleItemDto> Items { get; init; } = new();
 }
 
-public class CreateSaleItemDto
+public record CreateSaleItemDto
 {
-    public int ProductId { get; set; }
-    public int Quantity { get; set; }
+    public int ProductId { get; init; }
+    public int Quantity { get; init; }
 }

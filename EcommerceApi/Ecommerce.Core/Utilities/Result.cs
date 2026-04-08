@@ -1,10 +1,10 @@
 namespace Ecommerce.Core.Utilities;
 
-public class Result<T>
+public record Result<T>
 {
-    public bool IsSuccess { get; set; }
-    public T? Data { get; set; }
-    public string? Message { get; set; }
+    public bool IsSuccess { get; private init; }
+    public T? Data { get; private init; }
+    public string? Message { get; private init; }
 
     public static Result<T> Success(T data)
     {

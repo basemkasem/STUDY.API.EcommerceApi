@@ -1,6 +1,6 @@
 namespace Ecommerce.Core.Utilities;
 
-public class PaginationParams
+public record PaginationParams
 {
     private const int DefaultPageSize = 50;
 

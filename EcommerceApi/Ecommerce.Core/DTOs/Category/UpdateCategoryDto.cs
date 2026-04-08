@@ -1,7 +1,7 @@
 namespace Ecommerce.Core.DTOs.Category;
 
-public class UpdateCategoryDto
+public record UpdateCategoryDto
 {
-    public string Name { get; set; } = string.Empty;
-    public string? Description { get; set; }
+    public string Name { get; init; } = string.Empty;
+    public string? Description { get; init; }
 }

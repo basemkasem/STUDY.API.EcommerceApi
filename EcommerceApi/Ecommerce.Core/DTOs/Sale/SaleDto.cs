@@ -1,17 +1,17 @@
 namespace Ecommerce.Core.DTOs.Sale;
 
-public class SaleDto
+public record SaleDto
 {
-    public int Id { get; set; }
-    public DateTime CreationDate { get; set; }
-    public decimal TotalPrice { get; set; }
-    public List<SaleItemDto> Items { get; set; } = new();
+    public int Id { get; init; }
+    public DateTime CreationDate { get; init; }
+    public decimal TotalPrice { get; init; }
+    public List<SaleItemDto> Items { get; init; } = new();
 }
 
-public class SaleItemDto
+public record SaleItemDto
 {
-    public int ProductId { get; set; }
-    public string? ProductName { get; set; } = string.Empty;
-    public decimal UnitPrice { get; set; }
-    public int Quantity { get; set; }
+    public int ProductId { get; init; }
+    public string? ProductName { get; init; } = string.Empty;
+    public decimal UnitPrice { get; init; }
+    public int Quantity { get; init; }
 }
