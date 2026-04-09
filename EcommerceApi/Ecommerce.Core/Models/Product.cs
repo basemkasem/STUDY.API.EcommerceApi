@@ -4,6 +4,9 @@ namespace Ecommerce.Core.Models;
 
 public class Product : IBaseEntity, ISoftDeletable
 {
+    public const int MaxNameLength = 50;
+    public const int MaxDescriptionLength = 250;
+    
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public decimal Price { get; set; }

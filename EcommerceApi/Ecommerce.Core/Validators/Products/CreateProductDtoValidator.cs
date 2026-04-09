@@ -1,4 +1,5 @@
 using Ecommerce.Core.DTOs.Product;
+using Ecommerce.Core.Models;
 using FluentValidation;
 
 namespace Ecommerce.Core.Validators.Products;
@@ -10,8 +11,12 @@ public class CreateProductDtoValidator : AbstractValidator<CreateProductDto>
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Product name is required.")
-            .MaximumLength(100)
-            .WithMessage("Product name cannot exceed 100 characters.");
+            .MaximumLength(Product.MaxNameLength)
+            .WithMessage($"Product name cannot exceed {Product.MaxNameLength} characters.");
+        
+        RuleFor(x => x.Description)
+            .MaximumLength(Product.MaxDescriptionLength)
+            .WithMessage($"Product description cannot exceed {Product.MaxDescriptionLength} characters.");
 
         RuleFor(x => x.Price)
             .GreaterThan(0)

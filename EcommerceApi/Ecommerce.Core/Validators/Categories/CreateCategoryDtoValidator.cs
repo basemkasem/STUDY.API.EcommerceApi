@@ -1,4 +1,5 @@
 using Ecommerce.Core.DTOs.Category;
+using Ecommerce.Core.Models;
 using FluentValidation;
 
 namespace Ecommerce.Core.Validators.Categories;
@@ -10,7 +11,11 @@ public class CreateCategoryDtoValidator : AbstractValidator<CreateCategoryDto>
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Category name is required.")
-            .MaximumLength(50)
-            .WithMessage("Category name cannot exceed 50 characters.");
+            .MaximumLength(Category.MaxNameLength)
+            .WithMessage($"Category name cannot exceed {Category.MaxNameLength} characters.");
+        
+        RuleFor(x => x.Description)
+            .MaximumLength(Category.MaxDescriptionLength)
+            .WithMessage($"Category description cannot exceed {Category.MaxDescriptionLength} characters.");
     }
 }
