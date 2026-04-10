@@ -27,13 +27,12 @@ public class ProductService(IUnitOfWork unitOfWork) : IProductService
             Price = product.Price,
             CategoryId = product.CategoryId
         };
-        if(newProduct.Quantity <= 0)
-            return Result<ProductDto>.Fail($"Quantity cannot be negative");
+        
         _unitOfWork.Products.Add(newProduct);
         int rowsAffected = await _unitOfWork.CompleteAsync();
         if (rowsAffected == 0)
         {
-            return Result<ProductDto>.Fail("Failed to create category");
+            return Result<ProductDto>.Fail("Failed to create product");
         }
         ProductDto dto = new()
         {
