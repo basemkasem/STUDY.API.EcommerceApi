@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Ecommerce.Core.DTOs.Category;
 using Ecommerce.Core.Interfaces.Services;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Web.Controllers;
@@ -29,6 +30,7 @@ public class CategoryController(ICategoryService categoryService, IValidator<Cre
         return result.IsSuccess ? Ok(result.Data) : NotFound(result.Message);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(CreateCategoryDto category)
     {
@@ -42,6 +44,7 @@ public class CategoryController(ICategoryService categoryService, IValidator<Cre
         return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Message);
     }
 
+    [Authorize(Roles = "Admin")]   
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, UpdateCategoryDto category)
     {
@@ -54,7 +57,8 @@ public class CategoryController(ICategoryService categoryService, IValidator<Cre
         var result = await _categoryService.UpdateCategoryAsync(id, category);
         return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Message);
     }
-
+    
+    [Authorize(Roles = "Admin")]  
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

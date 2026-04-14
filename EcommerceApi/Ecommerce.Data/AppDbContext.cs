@@ -1,10 +1,11 @@
 using Ecommerce.Core.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace Ecommerce.Data;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 
 {
     public DbSet<Product> Products { get; set; }
@@ -17,8 +18,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder
             .Entity<Product>()
             .HasQueryFilter(p => !p.IsDeleted)

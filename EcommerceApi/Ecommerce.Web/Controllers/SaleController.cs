@@ -3,6 +3,7 @@ using Ecommerce.Core.DTOs.Sale;
 using Ecommerce.Core.Interfaces.Services;
 using Ecommerce.Core.Utilities;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Web.Controllers;
@@ -14,6 +15,7 @@ public class SaleController(ISaleService saleService, IValidator<CreateSaleDto> 
     private readonly ISaleService _saleService = saleService;
     private readonly IValidator<CreateSaleDto> _createValidator = createValidator;
 
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] PaginationParams paginationParams)
     {
@@ -28,6 +30,7 @@ public class SaleController(ISaleService saleService, IValidator<CreateSaleDto> 
         return sale.IsSuccess ? Ok(sale.Data) : NotFound(sale.Message);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create(CreateSaleDto sale)
     {

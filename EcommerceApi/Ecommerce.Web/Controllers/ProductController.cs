@@ -3,6 +3,7 @@ using Ecommerce.Core.DTOs.Product;
 using Ecommerce.Core.Interfaces.Services;
 using Ecommerce.Core.Utilities;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Web.Controllers;
@@ -29,6 +30,7 @@ public class ProductController(IProductService productService, IValidator<Create
         return product.IsSuccess ? Ok(product.Data) : NotFound(product.Message);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(CreateProductDto product)
     {
@@ -43,13 +45,15 @@ public class ProductController(IProductService productService, IValidator<Create
         return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Message);
     }
     
+    [Authorize(Roles = "Admin")] 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _productService.DeleteProductAsync(id);
         return result.IsSuccess ? NoContent() : BadRequest(result.Message);
     }
-    
+
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, UpdateProductDto product)
     {
