@@ -7,6 +7,8 @@ A RESTful API built with ASP.NET Core for managing an e-commerce system with pro
 - **Product Management**: CRUD operations for products with inventory tracking
 - **Category Management**: Organize products into categories
 - **Sales Processing**: Create and track sales with automatic inventory deduction
+- **Authentication & Authorization:** Secure, stateless user authentication utilizing ASP.NET Core Identity and JSON Web Tokens (JWT).
+  Implements role-based access control to lock down administrative endpoints while safely exposing public browsing routes.
 - **Soft Delete**: Entities are soft-deleted, allowing data recovery
 - **Pagination**: Efficient data retrieval with pagination support
 - **Result Pattern**: Consistent error handling and response formatting
@@ -50,6 +52,7 @@ EcommerceApi/
 - **OpenAPI/Postman** for API documentation
 - **FluentValidation** for input validation
 - **Asp.Versioning** for API versioning
+- **Json Web Tokens** for token-based Authentication and Authorization
 
 ## Getting Started
 
@@ -297,8 +300,7 @@ All endpoints are prefixed with `/api/v1/`. When new versions are introduced, ol
 
 ## Future Enhancements
 
-- [ ] Add authentication & authorization (JWT) **(Currently Working On)**
-- [ ] Implement logging (Serilog)
+- [ ] Implement logging
 - [ ] Add unit and integration tests
 - [ ] Implement caching for frequently accessed data
 - [ ] Implement rate limiting
