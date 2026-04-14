@@ -71,7 +71,7 @@ public class AuthService(
             return new JwtSecurityToken(
                 issuer: configuration["Jwt:Issuer"],
                 audience: configuration["Jwt:Audience"],
-                claims: userClaims,
+                claims: claims,
                 expires: DateTime.Now.AddHours(configuration.GetValue<int>("Jwt:ExpirationInHours")),
                 signingCredentials: signingCredentials
             );
